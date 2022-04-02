@@ -38,18 +38,10 @@ $usuarios = $objusuarios-> mostrar_usuarios();
      </tr>
      <tbody>
      <?php
-     foreach($usuarios as $row){
-     ?>
-        <tr>
-             <td> <?php echo $row['id']?> </td>
-             <td> <?php echo $row['username']?> </td>
-             <td> <?php echo $row['email']?> </td>
-             <td></td>
-             <td></td>
-         </tr>
-         <?php
-         }
-         ?>
+    $query = "SELECT * FROM usuarios";
+    $crud ->dataview($query)
+       
+       ?>
      </tbody>
  </table>
 
