@@ -1,13 +1,14 @@
 <?php
-include('config.php');
-require('class/usuarios.php');
 session_start();
+include('config.php');
+
+include_once('class/usuarios.php');
+
 if (!isset($_SESSION['user_id'])) {
     header('Location: index.php');
     exit;
 }
-$objusuarios = new Usuarios ();
-$usuarios = $objusuarios-> mostrar_usuarios();
+
 ?>
 <!doctype html>
 <html lang="en">
