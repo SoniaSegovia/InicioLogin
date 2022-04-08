@@ -1,23 +1,27 @@
 <?php
+session_start();
 include('config.php');
-include_once('class/usuarios.php');
-$crud = new crud ($conn);
-//validacion del boton actualizar  
-if (isset($_POST['btn-update']) ){
- $id = $_GET['edit_id'];
- $username = $_POST['usuario'];
- $email = $_POST['email'];
+include_once 'class/usuarios.php';
+if (!isset($_SESSION['user_id'])) {
+    header('Location: index.php');
+    exit;
 }
-
-$id = $_GET['edit_id'];
-$username = $_POST['usuario'];
-$email = $_POST['email'];
-
-
-if ($crud->update($id, $username, $email)) {
-    $msg = "<b> WOW, Actualizacion exitosa¡</b>";
-}else {
-    $msg = "<b> ERROR, Algo anda mal¡</b>";
+$crud = new crud($conn);
+//validacion del boton actualizar
+if (isset($_POST['btn-update'])) {
+    $id = $_GET['edit_id'];
+    $username = $_POST['usuario'];
+    $email = $_POST['email'];
+    //hace referencia a la funcion update
+    if ($crud->update($id, $username, $email)) {
+        $msg = "<b>WOW, Actualizacion exitosa!</b>";
+    } else {
+        $msg = "<b>ERROR, algo anda mal</b>";
+    }
+}
+if (isset($_GET['edit_id'])) {
+    $id = $_GET['edit_id'];
+    extract($crud->getID($id));
 }
 ?>
 <!doctype html>
@@ -37,30 +41,7 @@ if ($crud->update($id, $username, $email)) {
 <body>
 
     <div class="container"><br>
-        <div class="row justify-content-center">
-            <div class="col-6 p-5 bg-white shadow-lg rounded">
-            <?php
-            if (isset($msg)) {
-              echo $msg;
-            }
-            ?>
-                <h3>ACTUALIZAR USUARIO</h3>
-                <hr>
-                <form method="post" action="registro.php">
-                    <div class="form-group">
-                        <label for="usuario">Nombre del Usuario</label>
-                        <input id="usuario" value ="<?php echo $username; ?>class="form-control" type="text" name="usuario">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input id="email" value ="<?php echo $email; ?>class="form-control" type="email" name="email">
-                    </div><br>
-                    <button class="btn btn-primary" name="btn-Update" type="submit">Actualizar</button>
-                </form>
-            </div>
-
-
-        </div>
+        
     </div>
 
 
